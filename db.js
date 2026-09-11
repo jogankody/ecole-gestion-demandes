@@ -2,9 +2,14 @@
 'use strict';
 const { DatabaseSync } = require('node:sqlite');
 const path = require('node:path');
+const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const DB_PATH = path.join(__dirname, 'data', 'ecole.db');
+// DATA_DIR permet de déplacer le stockage vers un disque persistant en ligne
+// (ex: hébergement cloud). En local, sans cette variable, tout reste dans ./data.
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
+fs.mkdirSync(DATA_DIR, { recursive: true });
+const DB_PATH = path.join(DATA_DIR, 'ecole.db');
 const db = new DatabaseSync(DB_PATH);
 
 db.exec(`
@@ -131,10 +136,10 @@ if (userCount === 0) {
     .forEach(nom => insertCat.run(nom));
 
   console.log('Base de données initialisée avec des comptes de démonstration :');
-  console.log('  superadmin / superadmin123');
-  console.log('  admin / admin123');
-  console.log('  agent / agent123');
-  console.log('  kouassi / demo1234 (demandeur)');
+  console.log(' superadmin / superadmin123');
+  console.log(' admin / admin123');
+  console.log(' agent / agent123');
+  console.log(' kouassi / demo1234 (demandeur)');
 }
 
 module.exports = { db, hashPassword, verifyPassword };
