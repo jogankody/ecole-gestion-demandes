@@ -14,7 +14,9 @@ const { creerSession, detruireSession, utilisateurCourant, login, hashPassword }
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
-const UPLOADS_DIR = path.join(__dirname, 'uploads');
+const DATA_DIR = process.env.DATA_DIR || __dirname;
+const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
+fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 const MAX_FICHIER_OCTETS = 15 * 1024 * 1024; // 15 Mo, configurable
 const EXTENSIONS_AUTORISEES = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.csv', '.jpg', '.jpeg', '.png', '.webp', '.zip'];
 
